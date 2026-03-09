@@ -1,8 +1,40 @@
+
+
+
 console.log("Main page loaded");
+
+const tabAll = document.getElementById("tab-all");
+const tabOpen = document.getElementById("tab-open");
+const tabClosed = document.getElementById("tab-closed");
+
+const issueCount = document.getElementById("issue-count");
+const spinner = document.getElementById("loading-spinner");
+
+let allIssues = [];
+
 
 const issuesContainer = document.getElementById("issues-container");
 
+// function loadIssues() {
+
+//     fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues")
+
+//         .then(function (res) {
+//             return res.json();
+//         })
+
+//         .then(function (data) {
+
+//             const issues = data.data;
+
+//             displayIssues(issues);
+
+//         });
+
+// }
 function loadIssues() {
+
+    spinner.classList.remove("hidden");
 
     fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues")
 
@@ -12,14 +44,17 @@ function loadIssues() {
 
         .then(function (data) {
 
-            const issues = data.data;
+            spinner.classList.add("hidden");
 
-            displayIssues(issues);
+            allIssues = data.data;
+
+            displayIssues(allIssues);
+
+            updateIssueCount(allIssues);
 
         });
 
 }
-
 
 
 function displayIssues(issues) {
@@ -185,6 +220,71 @@ ${new Date(issue.createdAt).toLocaleDateString()}
 
 }
 
+function updateIssueCount(issues) {
 
+    issueCount.innerText = issues.length + " Issues";
+
+}
+
+function setActiveTab(activeTab){
+
+document.querySelectorAll(".tab-btn").forEach(function(btn){
+
+btn.style.background = "";
+btn.classList.remove("text-white");
+
+});
+
+activeTab.style.background = "#4A00FF";
+activeTab.classList.add("text-white");
+
+}
 
 loadIssues();
+
+
+tabAll.addEventListener("click", function () {
+
+    setActiveTab(tabAll);
+
+    displayIssues(allIssues);
+
+    updateIssueCount(allIssues);
+
+});
+
+
+
+tabOpen.addEventListener("click", function () {
+
+    setActiveTab(tabOpen);
+
+    const openIssues = allIssues.filter(function (issue) {
+
+        return issue.status === "open";
+
+    });
+
+    displayIssues(openIssues);
+
+    updateIssueCount(openIssues);
+
+});
+
+
+
+tabClosed.addEventListener("click", function () {
+
+    setActiveTab(tabClosed);
+
+    const closedIssues = allIssues.filter(function (issue) {
+
+        return issue.status === "closed";
+
+    });
+
+    displayIssues(closedIssues);
+
+    updateIssueCount(closedIssues);
+
+});

@@ -71,20 +71,23 @@ All Issues
 <div class="flex gap-3">
 
 <button
-class="px-4 py-2 rounded-md text-sm text-white"
+id="tab-all"
+class="tab-btn px-4 py-2 rounded-md text-sm text-white"
 style="background:#4A00FF"
 >
 All
 </button>
 
 <button
-class="px-4 py-2 rounded-md text-sm border hover:bg-gray-100"
+id="tab-open"
+class="tab-btn px-4 py-2 rounded-md text-sm border hover:bg-gray-100"
 >
 Open
 </button>
 
 <button
-class="px-4 py-2 rounded-md text-sm border hover:bg-gray-100"
+id="tab-closed"
+class="tab-btn px-4 py-2 rounded-md text-sm border hover:bg-gray-100"
 >
 Closed
 </button>
@@ -104,8 +107,8 @@ Closed
 
 <div>
 
-<h3 class="text-lg font-semibold">
-50 Issues
+<h3 id="issue-count" class="text-lg font-semibold">
+0 Issues
 </h3>
 
 <p class="text-sm text-gray-500">
@@ -141,13 +144,24 @@ Track and manage your project issues
 
 
  
+<!-- <div
+id="issues-container"
+class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6"
+>
+</div> -->
+ 
+<div id="loading-spinner" class="text-center py-10 hidden">
+
+<div class="inline-block w-8 h-8 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+
+</div>
 
 <div
 id="issues-container"
-class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6"
 >
 </div>
- 
+
 
 </div>
 
