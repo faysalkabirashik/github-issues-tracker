@@ -116,48 +116,62 @@ function displayIssues(issues) {
 
         /* labels */
 
-        let labelsHTML = "";
+/* labels */
 
-        if (issue.labels && issue.labels.length > 0) {
+let labelsHTML = "";
 
-            issue.labels.forEach(function (label) {
+if (issue.labels && issue.labels.length > 0) {
 
-                if (label === "bug") {
-                    labelsHTML += `
+issue.labels.forEach(function (label) {
+
+if (label === "bug") {
+
+labelsHTML += `
 <span style="color:#EF4444;background:#FEECEC;border:1px solid #FECACA"
-class="text-xs px-2 py-1 rounded-md">
-🐞 BUG
-</span>`;
-                }
+class="text-xs px-2 py-1 rounded-md flex items-center gap-1">
 
-                else if (label === "help wanted") {
-                    labelsHTML += `
-<span style="color:#D97706;background:#FFF8DB;border:1px solid #FDE68A"
-class="text-xs px-2 py-1 rounded-md">
-⚠ HELP WANTED
-</span>`;
-                }
+<img src="./assets/bug-droid.png" class="w-3 h-3">
 
-                else if (label === "enhancement") {
-                    labelsHTML += `
-<span style="color:#00A96E;background:#DEFCE8;border:1px solid #BBF7D0"
-class="text-xs px-2 py-1 rounded-md">
-✨ ENHANCEMENT
-</span>`;
-                }
+BUG
 
-            });
-
-        }
-        else {
-
-            labelsHTML = `
-<span class="text-xs text-gray-400">
-No label
 </span>
 `;
 
-        }
+}
+
+else if (label === "help wanted") {
+
+labelsHTML += `
+<span style="color:#D97706;background:#FFF8DB;border:1px solid #FDE68A"
+class="text-xs px-2 py-1 rounded-md flex items-center gap-1">
+
+<img src="./assets/help-Vector.png" class="w-3 h-3">
+
+HELP WANTED
+
+</span>
+`;
+
+}
+
+else if (label === "enhancement") {
+
+labelsHTML += `
+<span style="color:#00A96E;background:#DEFCE8;border:1px solid #BBF7D0"
+class="text-xs px-2 py-1 rounded-md flex items-center gap-1">
+
+<img src="./assets/enhancement-Vector.png" class="w-3 h-3">
+
+ENHANCEMENT
+
+</span>
+`;
+
+}
+
+});
+
+}
 
 
 
@@ -391,33 +405,40 @@ modalLabels.innerHTML = "";
 
 issue.labels.forEach(label => {
 
+const span = document.createElement("span");
+
+span.className = "px-3 py-1 rounded-md text-xs font-medium flex items-center gap-1";
+
+let icon = "";
 let style = "";
 
 if(label === "bug"){
 
+icon = "./assets/bug-droid.png";
 style = "color:#EF4444;background:#FEECEC;border:1px solid #FECACA";
 
 }
 
 else if(label === "help wanted"){
 
+icon = "./assets/help-Vector.png";
 style = "color:#D97706;background:#FFF8DB;border:1px solid #FDE68A";
 
 }
 
 else if(label === "enhancement"){
 
+icon = "./assets/enhancement-Vector.png";
 style = "color:#00A96E;background:#DEFCE8;border:1px solid #BBF7D0";
 
 }
 
-const span = document.createElement("span");
-
-span.className = "px-3 py-1 rounded-full text-xs font-medium";
-
 span.style = style;
 
-span.innerText = label.toUpperCase();
+span.innerHTML = `
+<img src="${icon}" class="w-3 h-3">
+${label.toUpperCase()}
+`;
 
 modalLabels.appendChild(span);
 
