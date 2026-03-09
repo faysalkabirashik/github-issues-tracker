@@ -10,6 +10,10 @@ const tabClosed = document.getElementById("tab-closed");
 const issueCount = document.getElementById("issue-count");
 const spinner = document.getElementById("loading-spinner");
 
+// search
+const searchInput = document.getElementById("searchInput");
+const searchBtn = document.getElementById("searchBtn");
+
 
 // modal er jonne
 const modal = document.getElementById("issue-modal");
@@ -25,15 +29,15 @@ const modalPriority = document.getElementById("modal-priority");
 
 
 let allIssues = [];
-function formatName(username){
+function formatName(username) {
 
-if(!username) return "Unassigned";
+    if (!username) return "Unassigned";
 
-return username
-.replace("_"," ")
-.split(" ")
-.map(word => word.charAt(0).toUpperCase() + word.slice(1))
-.join(" ");
+    return username
+        .replace("_", " ")
+        .split(" ")
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
 
 }
 
@@ -126,17 +130,17 @@ function displayIssues(issues) {
 
         /* labels */
 
-/* labels */
+        /* labels */
 
-let labelsHTML = "";
+        let labelsHTML = "";
 
-if (issue.labels && issue.labels.length > 0) {
+        if (issue.labels && issue.labels.length > 0) {
 
-issue.labels.forEach(function (label) {
+            issue.labels.forEach(function (label) {
 
-if (label === "bug") {
+                if (label === "bug") {
 
-labelsHTML += `
+                    labelsHTML += `
 <span style="color:#EF4444;background:#FEECEC;border:1px solid #FECACA"
 class="text-xs px-2 py-1 rounded-md flex items-center gap-1">
 
@@ -147,11 +151,11 @@ BUG
 </span>
 `;
 
-}
+                }
 
-else if (label === "help wanted") {
+                else if (label === "help wanted") {
 
-labelsHTML += `
+                    labelsHTML += `
 <span style="color:#D97706;background:#FFF8DB;border:1px solid #FDE68A"
 class="text-xs px-2 py-1 rounded-md flex items-center gap-1">
 
@@ -162,11 +166,11 @@ HELP WANTED
 </span>
 `;
 
-}
+                }
 
-else if (label === "enhancement") {
+                else if (label === "enhancement") {
 
-labelsHTML += `
+                    labelsHTML += `
 <span style="color:#00A96E;background:#DEFCE8;border:1px solid #BBF7D0"
 class="text-xs px-2 py-1 rounded-md flex items-center gap-1">
 
@@ -177,11 +181,11 @@ ENHANCEMENT
 </span>
 `;
 
-}
+                }
 
-});
+            });
 
-}
+        }
 
 
 
@@ -334,140 +338,140 @@ tabClosed.addEventListener("click", function () {
 
 
 // modla part
-function openIssueModal(id){
+function openIssueModal(id) {
 
-fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`)
+    fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`)
 
-.then(res => res.json())
+        .then(res => res.json())
 
-.then(data => {
+        .then(data => {
 
-const issue = data.data;
+            const issue = data.data;
 
-modal.classList.remove("hidden");
+            modal.classList.remove("hidden");
 
-modalTitle.innerText = issue.title;
-
-
-/* STATUS */
-
-modalStatus.innerText = "Opened";
-
-modalStatus.style.background = "#22C55E";
+            modalTitle.innerText = issue.title;
 
 
-/* AUTHOR */
+            /* STATUS */
 
-modalAuthor.innerText = "Opened by " + formatName(issue.author);
+            modalStatus.innerText = "Opened";
 
-
-/* DATE */
-
-modalDate.innerText = new Date(issue.createdAt).toLocaleDateString();
+            modalStatus.style.background = "#22C55E";
 
 
-/* DESCRIPTION */
+            /* AUTHOR */
 
-modalDescription.innerText = issue.description;
-
-
-/* ASSIGNEE */
-
-modalAssignee.innerText = formatName(issue.assignee);
+            modalAuthor.innerText = "Opened by " + formatName(issue.author);
 
 
-/* PRIORITY */
+            /* DATE */
 
-if(issue.priority === "high"){
+            modalDate.innerText = new Date(issue.createdAt).toLocaleDateString();
 
-modalPriority.innerHTML =
-`<span class="px-3 py-1 rounded-full text-xs font-semibold"
+
+            /* DESCRIPTION */
+
+            modalDescription.innerText = issue.description;
+
+
+            /* ASSIGNEE */
+
+            modalAssignee.innerText = formatName(issue.assignee);
+
+
+            /* PRIORITY */
+
+            if (issue.priority === "high") {
+
+                modalPriority.innerHTML =
+                    `<span class="px-3 py-1 rounded-full text-xs font-semibold"
 style="color:#EF4444;background:#FEECEC">
 HIGH
 </span>`;
 
-}
+            }
 
-else if(issue.priority === "medium"){
+            else if (issue.priority === "medium") {
 
-modalPriority.innerHTML =
-`<span class="px-3 py-1 rounded-full text-xs font-semibold"
+                modalPriority.innerHTML =
+                    `<span class="px-3 py-1 rounded-full text-xs font-semibold"
 style="color:#F59E0B;background:#FFF6D1">
 MEDIUM
 </span>`;
 
-}
+            }
 
-else{
+            else {
 
-modalPriority.innerHTML =
-`<span class="px-3 py-1 rounded-full text-xs font-semibold"
+                modalPriority.innerHTML =
+                    `<span class="px-3 py-1 rounded-full text-xs font-semibold"
 style="color:#9CA3AF;background:#EEEFF2">
 LOW
 </span>`;
 
-}
+            }
 
 
-/* LABELS */
+            /* LABELS */
 
-modalLabels.innerHTML = "";
+            modalLabels.innerHTML = "";
 
-issue.labels.forEach(label => {
+            issue.labels.forEach(label => {
 
-const span = document.createElement("span");
+                const span = document.createElement("span");
 
-span.className = "px-3 py-1 rounded-md text-xs font-medium flex items-center gap-1";
+                span.className = "px-3 py-1 rounded-md text-xs font-medium flex items-center gap-1";
 
-let icon = "";
-let style = "";
+                let icon = "";
+                let style = "";
 
-if(label === "bug"){
+                if (label === "bug") {
 
-icon = "./assets/bug-droid.png";
-style = "color:#EF4444;background:#FEECEC;border:1px solid #FECACA";
+                    icon = "./assets/bug-droid.png";
+                    style = "color:#EF4444;background:#FEECEC;border:1px solid #FECACA";
 
-}
+                }
 
-else if(label === "help wanted"){
+                else if (label === "help wanted") {
 
-icon = "./assets/help-Vector.png";
-style = "color:#D97706;background:#FFF8DB;border:1px solid #FDE68A";
+                    icon = "./assets/help-Vector.png";
+                    style = "color:#D97706;background:#FFF8DB;border:1px solid #FDE68A";
 
-}
+                }
 
-else if(label === "enhancement"){
+                else if (label === "enhancement") {
 
-icon = "./assets/enhancement-Vector.png";
-style = "color:#00A96E;background:#DEFCE8;border:1px solid #BBF7D0";
+                    icon = "./assets/enhancement-Vector.png";
+                    style = "color:#00A96E;background:#DEFCE8;border:1px solid #BBF7D0";
 
-}
+                }
 
-else if(label === "documentation"){
+                else if (label === "documentation") {
 
-icon = "📄";
-style = "color:#374151;background:#F3F4F6;border:1px solid #E5E7EB";
+                    icon = "📄";
+                    style = "color:#374151;background:#F3F4F6;border:1px solid #E5E7EB";
 
-}
+                }
 
-else if(label === "good first issue"){
+                else if (label === "good first issue") {
 
-icon = "🙂";
-style = "color:#374151;background:#F3F4F6;border:1px solid #E5E7EB";
+                    icon = "🙂";
+                    style = "color:#374151;background:#F3F4F6;border:1px solid #E5E7EB";
 
-}
+                }
 
-span.style = style;
+                span.style = style;
 
-span.innerHTML = icon.startsWith("./")
-? `<img src="${icon}" class="w-4 h-4"> ${label.toUpperCase()}`
-: `${icon} ${label.toUpperCase()}`;
+                span.innerHTML = icon.startsWith("./")
+                    ? `<img src="${icon}" class="w-4 h-4"> ${label.toUpperCase()}`
+                    : `${icon} ${label.toUpperCase()}`;
 
-modalLabels.appendChild(span);
+                modalLabels.appendChild(span);
 
-});
+            });
 
-});
+        });
 
 }
 
@@ -477,3 +481,51 @@ function closeModal() {
     modal.classList.add("hidden");
 
 }
+
+function searchIssues() {
+
+    const query = searchInput.value.trim();
+
+    if (query === "") {
+
+        displayIssues(allIssues);
+        updateIssueCount(allIssues);
+        return;
+
+    }
+
+    spinner.classList.remove("hidden");
+
+    fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${query}`)
+
+        .then(res => res.json())
+
+        .then(data => {
+
+            spinner.classList.add("hidden");
+
+            const results = data.data;
+
+            displayIssues(results);
+
+            updateIssueCount(results);
+
+        });
+
+}
+
+searchBtn.addEventListener("click", function () {
+
+    searchIssues();
+
+});
+
+searchInput.addEventListener("keypress", function (e) {
+
+    if (e.key === "Enter") {
+
+        searchIssues();
+
+    }
+
+});
