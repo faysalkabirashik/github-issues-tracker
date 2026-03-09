@@ -10,6 +10,20 @@ const tabClosed = document.getElementById("tab-closed");
 const issueCount = document.getElementById("issue-count");
 const spinner = document.getElementById("loading-spinner");
 
+
+// modal er jonne
+const modal = document.getElementById("issue-modal");
+
+const modalTitle = document.getElementById("modal-title");
+const modalStatus = document.getElementById("modal-status");
+const modalAuthor = document.getElementById("modal-author");
+const modalDate = document.getElementById("modal-date");
+const modalLabels = document.getElementById("modal-labels");
+const modalDescription = document.getElementById("modal-description");
+const modalAssignee = document.getElementById("modal-assignee");
+const modalPriority = document.getElementById("modal-priority");
+
+
 let allIssues = [];
 
 
@@ -64,6 +78,11 @@ function displayIssues(issues) {
     issues.forEach(function (issue) {
 
         const div = document.createElement("div");
+        div.onclick = function () {
+
+            openIssueModal(issue.id);
+
+        };
 
         let borderColor = "";
         let statusIcon = "";
@@ -226,17 +245,17 @@ function updateIssueCount(issues) {
 
 }
 
-function setActiveTab(activeTab){
+function setActiveTab(activeTab) {
 
-document.querySelectorAll(".tab-btn").forEach(function(btn){
+    document.querySelectorAll(".tab-btn").forEach(function (btn) {
 
-btn.style.background = "";
-btn.classList.remove("text-white");
+        btn.style.background = "";
+        btn.classList.remove("text-white");
 
-});
+    });
 
-activeTab.style.background = "#4A00FF";
-activeTab.classList.add("text-white");
+    activeTab.style.background = "#4A00FF";
+    activeTab.classList.add("text-white");
 
 }
 
@@ -288,3 +307,129 @@ tabClosed.addEventListener("click", function () {
     updateIssueCount(closedIssues);
 
 });
+
+
+// modla part
+function openIssueModal(id){
+
+fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`)
+
+.then(res => res.json())
+
+.then(data => {
+
+const issue = data.data;
+
+modal.classList.remove("hidden");
+
+modalTitle.innerText = issue.title;
+
+
+/* STATUS */
+
+modalStatus.innerText = "Opened";
+
+modalStatus.style.background = "#22C55E";
+
+
+/* AUTHOR */
+
+modalAuthor.innerText = "Opened by " + issue.author;
+
+
+/* DATE */
+
+modalDate.innerText = new Date(issue.createdAt).toLocaleDateString();
+
+
+/* DESCRIPTION */
+
+modalDescription.innerText = issue.description;
+
+
+/* ASSIGNEE */
+
+modalAssignee.innerText = issue.assignee || "Unassigned";
+
+
+/* PRIORITY */
+
+if(issue.priority === "high"){
+
+modalPriority.innerHTML =
+`<span class="px-3 py-1 rounded-full text-xs font-semibold"
+style="color:#EF4444;background:#FEECEC">
+HIGH
+</span>`;
+
+}
+
+else if(issue.priority === "medium"){
+
+modalPriority.innerHTML =
+`<span class="px-3 py-1 rounded-full text-xs font-semibold"
+style="color:#F59E0B;background:#FFF6D1">
+MEDIUM
+</span>`;
+
+}
+
+else{
+
+modalPriority.innerHTML =
+`<span class="px-3 py-1 rounded-full text-xs font-semibold"
+style="color:#9CA3AF;background:#EEEFF2">
+LOW
+</span>`;
+
+}
+
+
+/* LABELS */
+
+modalLabels.innerHTML = "";
+
+issue.labels.forEach(label => {
+
+let style = "";
+
+if(label === "bug"){
+
+style = "color:#EF4444;background:#FEECEC;border:1px solid #FECACA";
+
+}
+
+else if(label === "help wanted"){
+
+style = "color:#D97706;background:#FFF8DB;border:1px solid #FDE68A";
+
+}
+
+else if(label === "enhancement"){
+
+style = "color:#00A96E;background:#DEFCE8;border:1px solid #BBF7D0";
+
+}
+
+const span = document.createElement("span");
+
+span.className = "px-3 py-1 rounded-full text-xs font-medium";
+
+span.style = style;
+
+span.innerText = label.toUpperCase();
+
+modalLabels.appendChild(span);
+
+});
+
+});
+
+}
+
+
+function closeModal() {
+
+    modal.classList.add("hidden");
+
+}
