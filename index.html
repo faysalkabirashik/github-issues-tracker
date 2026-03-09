@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GitHub Issues Tracker</title>
+
+<!-- Tailwind CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="./css/style.css">
+
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+<div class="bg-white w-[420px] rounded-xl shadow-lg p-8 text-center">
+
+    <!-- Logo -->
+    <div class="flex justify-center mb-4">
+        <img src="./assets/github-logo.png" class="w-16">
+    </div>
+
+    <!-- Title -->
+    <h1 class="text-2xl font-semibold mb-1">
+        GitHub Issues Tracker
+    </h1>
+
+    <p class="text-gray-500 text-sm mb-6">
+        Sign in to manage your issues
+    </p>
+
+    <!-- Username -->
+    <div class="text-left mb-4">
+        <label class="text-sm font-medium">Username</label>
+
+        <input
+        id="username"
+        type="text"
+        placeholder="Enter Username"
+        class="w-full border rounded-md px-3 py-2 mt-1 focus:outline-none"
+        >
+
+        <p class="text-sm text-purple-600 mt-1">
+            Default: admin
+        </p>
+    </div>
+
+
+    <!-- Password -->
+    <div class="text-left mb-6">
+        <label class="text-sm font-medium">Password</label>
+
+        <input
+        id="password"
+        type="password"
+        placeholder="Enter Password"
+        class="w-full border rounded-md px-3 py-2 mt-1 focus:outline-none"
+        >
+
+        <p class="text-sm text-purple-600 mt-1">
+            Default: admin123
+        </p>
+    </div>
+
+
+    <!-- Sign In Button -->
+    <button
+    onclick="loginUser()"
+    class="w-full text-white py-2 rounded-md font-medium"
+    style="background:#4A00FF"
+    >
+        Sign In
+    </button>
+
+
+    <!-- Divider -->
+    <div class="flex items-center my-6">
+        <div class="flex-grow border-t"></div>
+        <span class="px-3 text-gray-500 text-sm">OR</span>
+        <div class="flex-grow border-t"></div>
+    </div>
+
+
+    <!-- Demo Credential -->
+             <p class="mb-2">Demo Credentials:</p>
+    <div class="bg-[#F8FAFC] rounded-md p-4 text-sm">
+
+
+        <p> <span class="font-semibold">Username:</span> admin</p>
+        <p><span class="font-semibold">Password:</span> admin123</p>
+    </div>
+
+</div>
+
+<script src="./js/login.js"></script>
+
+</body>
+</html>
