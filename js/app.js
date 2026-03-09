@@ -25,7 +25,17 @@ const modalPriority = document.getElementById("modal-priority");
 
 
 let allIssues = [];
+function formatName(username){
 
+if(!username) return "Unassigned";
+
+return username
+.replace("_"," ")
+.split(" ")
+.map(word => word.charAt(0).toUpperCase() + word.slice(1))
+.join(" ");
+
+}
 
 const issuesContainer = document.getElementById("issues-container");
 
@@ -348,7 +358,7 @@ modalStatus.style.background = "#22C55E";
 
 /* AUTHOR */
 
-modalAuthor.innerText = "Opened by " + issue.author;
+modalAuthor.innerText = "Opened by " + formatName(issue.author);
 
 
 /* DATE */
@@ -363,7 +373,7 @@ modalDescription.innerText = issue.description;
 
 /* ASSIGNEE */
 
-modalAssignee.innerText = issue.assignee || "Unassigned";
+modalAssignee.innerText = formatName(issue.assignee);
 
 
 /* PRIORITY */
@@ -433,12 +443,25 @@ style = "color:#00A96E;background:#DEFCE8;border:1px solid #BBF7D0";
 
 }
 
+else if(label === "documentation"){
+
+icon = "📄";
+style = "color:#374151;background:#F3F4F6;border:1px solid #E5E7EB";
+
+}
+
+else if(label === "good first issue"){
+
+icon = "🙂";
+style = "color:#374151;background:#F3F4F6;border:1px solid #E5E7EB";
+
+}
+
 span.style = style;
 
-span.innerHTML = `
-<img src="${icon}" class="w-3 h-3">
-${label.toUpperCase()}
-`;
+span.innerHTML = icon.startsWith("./")
+? `<img src="${icon}" class="w-4 h-4"> ${label.toUpperCase()}`
+: `${icon} ${label.toUpperCase()}`;
 
 modalLabels.appendChild(span);
 
