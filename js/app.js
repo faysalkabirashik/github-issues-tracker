@@ -64,50 +64,53 @@ function displayIssues(issues) {
 
         let labelsHTML = "";
 
-        issue.labels.forEach(function (label) {
+        if (issue.labels && issue.labels.length > 0) {
 
-            if (label === "bug") {
+            issue.labels.forEach(function (label) {
 
-                labelsHTML += `
+                if (label === "bug") {
+                    labelsHTML += `
 <span style="color:#EF4444;background:#FEECEC;border:1px solid #FECACA"
 class="text-xs px-2 py-1 rounded-md">
 🐞 BUG
-</span>
-`;
+</span>`;
+                }
 
-            }
-
-            else if (label === "help wanted") {
-
-                labelsHTML += `
+                else if (label === "help wanted") {
+                    labelsHTML += `
 <span style="color:#D97706;background:#FFF8DB;border:1px solid #FDE68A"
 class="text-xs px-2 py-1 rounded-md">
 ⚠ HELP WANTED
-</span>
-`;
+</span>`;
+                }
 
-            }
-
-            else if (label === "enhancement") {
-
-                labelsHTML += `
+                else if (label === "enhancement") {
+                    labelsHTML += `
 <span style="color:#00A96E;background:#DEFCE8;border:1px solid #BBF7D0"
 class="text-xs px-2 py-1 rounded-md">
 ✨ ENHANCEMENT
+</span>`;
+                }
+
+            });
+
+        }
+        else {
+
+            labelsHTML = `
+<span class="text-xs text-gray-400">
+No label
 </span>
 `;
 
-            }
-
-        });
+        }
 
 
 
         div.innerHTML = `
 
-<div class="bg-white rounded-lg shadow-sm border-t-4 ${borderColor} hover:shadow-md transition cursor-pointer">
-
-<div class="p-4">
+<div class="bg-white rounded-lg shadow-sm border-t-4 ${borderColor} hover:shadow-md transition cursor-pointer h-full flex flex-col">
+<div class="p-4 flex flex-col flex-grow">
 
 
 <!-- top row -->
@@ -135,7 +138,7 @@ ${issue.title}
 
 <!-- description -->
 
-<p class="text-xs text-gray-500 mb-3 leading-5">
+<p class="text-xs text-gray-500 mb-3 leading-5 flex-grow">
 
 ${issue.description.substring(0, 85)}...
 
@@ -163,8 +166,7 @@ ${labelsHTML}
 
 <!-- bottom -->
 
-<div class="px-4 py-3 text-xs text-gray-500">
-
+<div class="px-4 py-3 text-xs text-gray-500 mt-auto">
 #${issue.id} by ${issue.author}
 
 <br>
